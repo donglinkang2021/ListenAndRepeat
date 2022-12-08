@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitMenuButton?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="510.0" prefWidth="494.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <SplitMenuButton layoutX="24.0" layoutY="26.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="434.0" text="Tool">
+         <items>
+            <MenuItem mnemonicParsing="false" text="Sleep" />
+            <Menu mnemonicParsing="false" text="Mouse">
+              <items>
+                <MenuItem fx:id="leftClickMouse" mnemonicParsing="false" text="LeftClick" />
+                <MenuItem fx:id="MiddleClickMouse" mnemonicParsing="false" text="MiddleClick" />
+                  <MenuItem fx:id="RightClickMouse" mnemonicParsing="false" text="RightClick" />
+                  <MenuItem mnemonicParsing="false" text="Drag" />
+                  <MenuItem mnemonicParsing="false" text="Move" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="KeyBoard">
+              <items>
+                  <MenuItem mnemonicParsing="false" text="PressKey" />
+                <MenuItem mnemonicParsing="false" text="Input" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Wheel">
+              <items>
+                <MenuItem mnemonicParsing="false" text="RollUp" />
+                  <MenuItem mnemonicParsing="false" text="RollDown" />
+              </items>
+            </Menu>
+         </items>
+      </SplitMenuButton>
+   </children>
+</AnchorPane>
