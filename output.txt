@@ -1,0 +1,12 @@
+MousePressed: 1 at 1273, 468
+MouseReleased: 1 at 1273, 468
+MousePressed: 1 at 1435, 527
+MouseReleased: 1 at 1435, 527
+MousePressed: 1 at 1313, 452
+MouseReleased: 1 at 1313, 452
+MousePressed: 1 at 1154, 394
+MouseReleased: 1 at 1154, 394
+MousePressed: 1 at 1357, 495
+MouseReleased: 1 at 1357, 495
+KeyPressed: 1 (Esc)
+切换输出到控制台

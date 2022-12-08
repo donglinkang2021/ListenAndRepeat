@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitMenuButton?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" prefHeight="277.0" prefWidth="398.0" spacing="20.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.myjavafxdemo2.HelloController">
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+   <children>
+      <HBox prefHeight="75.0" prefWidth="358.0">
+         <children>
+            <TabPane prefHeight="75.0" prefWidth="332.0" tabClosingPolicy="UNAVAILABLE">
+               <tabs>
+                  <Tab onSelectionChanged="#onSleeperTabSelected" text="Sleep">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="24.0" prefWidth="324.0">
+                           <children>
+                              <Label layoutX="10.0" layoutY="5.0" prefHeight="23.0" prefWidth="50.0" text="睡眠时间" />
+                              <TextArea layoutX="65.0" layoutY="5.0" minHeight="-Infinity" prefHeight="23.0" prefWidth="118.0" AnchorPane.bottomAnchor="18.0" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="141.0" AnchorPane.topAnchor="5.0" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab onSelectionChanged="#onMouseTabSelected" text="Mouse">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="28.0" prefWidth="324.0">
+                           <children>
+                              <SplitMenuButton layoutX="12.0" layoutY="4.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="81.0" text="Action" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="231.0" AnchorPane.topAnchor="4.0">
+                                 <items>
+                                    <MenuItem mnemonicParsing="false" text="LeftClick" />
+                                    <MenuItem mnemonicParsing="false" text="RightClick" />
+                                    <MenuItem mnemonicParsing="false" text="MidClick" />
+                                    <MenuItem mnemonicParsing="false" text="Drag" />
+                                    <MenuItem mnemonicParsing="false" text="Move" />
+                                 </items>
+                              </SplitMenuButton>
+                              <TextArea layoutX="139.0" layoutY="5.0" minHeight="-Infinity" prefHeight="23.0" prefWidth="65.0" AnchorPane.leftAnchor="139.0" AnchorPane.topAnchor="5.0" />
+                              <TextArea layoutX="228.0" layoutY="5.0" minHeight="-Infinity" prefHeight="23.0" prefWidth="65.0" AnchorPane.leftAnchor="228.0" AnchorPane.topAnchor="5.0" />
+                              <Label layoutX="104.0" layoutY="9.0" text="From" />
+                              <Label layoutX="210.0" layoutY="9.0" text="to" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab onSelectionChanged="#onKeyboardTabSelected" text="KeyBoard">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <SplitMenuButton layoutX="12.0" layoutY="4.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="81.0" text="Action" AnchorPane.leftAnchor="12.0" AnchorPane.topAnchor="4.0">
+                                 <items>
+                                    <MenuItem mnemonicParsing="false" text="PressKey" />
+                                    <MenuItem mnemonicParsing="false" text="TypeText" />
+                                 </items>
+                              </SplitMenuButton>
+                              <TextArea layoutX="101.0" layoutY="5.0" minHeight="-Infinity" prefHeight="23.0" prefWidth="118.0" AnchorPane.leftAnchor="101.0" AnchorPane.topAnchor="5.0" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab onSelectionChanged="#onWheelTabSelected" text="Wheel">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <SplitMenuButton layoutX="12.0" layoutY="4.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="81.0" text="Action" AnchorPane.leftAnchor="12.0" AnchorPane.topAnchor="4.0">
+                                 <items>
+                                    <MenuItem mnemonicParsing="false" text="RollUp" />
+                                    <MenuItem mnemonicParsing="false" text="RollDown" />
+                                 </items>
+                              </SplitMenuButton>
+                              <TextArea layoutX="101.0" layoutY="5.0" minHeight="-Infinity" prefHeight="23.0" prefWidth="118.0" AnchorPane.leftAnchor="101.0" AnchorPane.topAnchor="5.0" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+               </tabs>
+            </TabPane>
+            <VBox prefHeight="63.0" prefWidth="25.0">
+               <children>
+                  <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="22.0" text="+" />
+                  <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="25.0" text="-" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <Button onAction="#onHelloButtonClick" text="RUN" />
+      <Label fx:id="welcomeText" />
+   </children>
+</VBox>
