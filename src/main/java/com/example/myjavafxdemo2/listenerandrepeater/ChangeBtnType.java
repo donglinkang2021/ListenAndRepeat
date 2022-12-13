@@ -28,6 +28,8 @@ public class ChangeBtnType {
     public static int keyboardSpeakToRobot(int keycode){
         // 将jnativehook的键盘事件与robot的键盘事件进行映射
         switch (keycode) {
+            case 3638: // 自定义的键盘事件
+                return KeyEvent.VK_SHIFT;
             case NativeKeyEvent.VC_ESCAPE:
                 return KeyEvent.VK_ESCAPE;
 //            case NativeKeyEvent.VC_ADD:
