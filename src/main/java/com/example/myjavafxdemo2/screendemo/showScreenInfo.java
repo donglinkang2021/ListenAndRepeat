@@ -9,13 +9,11 @@ public class showScreenInfo {
         return gs.length == 1;
     }
     public static void main(String[] args) {
-
-        // 输出屏幕数量用GraphicsEnvironment
-//        if (isSingleScreen()) {
-//            System.out.println("单屏");
-//        }
-        test();
+//        test();
+//        ScreenSizeExample.main(args);
+        MultipleDisplaySizesExample.main(args);
     }
+
 
     public static void test() {
         // 检查屏幕数量
@@ -45,5 +43,40 @@ public class showScreenInfo {
                 + "x"
                 + screenSize.height
         );
+    }
+}
+
+// 获得屏幕的尺寸和dpi
+class ScreenSizeExample {
+    public static void main(String[] args) {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        double width = screenSize.getWidth();
+        double height = screenSize.getHeight();
+        System.out.println("Screen size: " + width + "x" + height);
+
+        // Get screen resolution
+        int screenResolution = Toolkit.getDefaultToolkit().getScreenResolution();
+        System.out.println("Screen resolution: " + screenResolution + " dpi");
+    }
+}
+
+// 获得多个屏幕的尺寸和起点
+class MultipleDisplaySizesExample {
+    public static void main(String[] args) {
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice[] gs = ge.getScreenDevices();
+        for (int i = 0; i < gs.length; i++) {
+            GraphicsDevice gd = gs[i];
+            System.out.println("分辨率" + (i+1) + ": " + gd.getDisplayMode().getWidth() + "x" + gd.getDisplayMode().getHeight());
+            GraphicsConfiguration[] gc = gd.getConfigurations(); // 获取屏幕配置 一个屏幕可能有多个配置
+            for (int j = 0; j < gc.length; j++) {
+                Rectangle bounds = gc[j].getBounds();
+                int width = bounds.width;
+                int height = bounds.height;
+                int x = bounds.x;
+                int y = bounds.y;
+                System.out.println("尺寸 " + (i + 1) + ": " + width + "x" + height + " at (" + x + ", " + y + ")");
+            }
+        }
     }
 }

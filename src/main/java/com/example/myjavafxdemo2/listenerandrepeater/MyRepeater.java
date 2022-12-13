@@ -6,17 +6,14 @@ import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.FileReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public class MyRepeater implements NativeKeyListener {
+public class MyRepeater{
     static Robot robot = null;
-    private static void initRobot() {
-        RepeaterOwnListener.addListener(); // 注册监听器允许中断运行
+    public static void initRobot() {
         try {
             robot = new Robot();
         } catch (AWTException e) {
@@ -24,11 +21,12 @@ public class MyRepeater implements NativeKeyListener {
         }
     }
     public static void doAction(Runnable action) {
+        RepeaterOwnListener.addListener(); // 注册监听器允许中断运行
         for (int i = 0; i < MyRepeaterInfo.getLoops(); i++) {
             action.run();
             robot.delay(MyRepeaterInfo.getLayTimePerLoop());
-            // 当用户按下Esc键时，退出循环
         }
+        RepeaterOwnListener.removeListener();
     }
 
     public static void test8(){
@@ -85,11 +83,7 @@ public class MyRepeater implements NativeKeyListener {
             while ((ch = fileReader.read()) != -1) {
                 stringBuilder.append((char) ch);
             }
-            int[] buffer = getNumsFromString(stringBuilder.toString()
-                    .replace("\r", " ")
-                    .replace("\n", " ")
-            );
-            doTaskFromData(buffer);
+            doTaskFromString(stringBuilder.toString());
 //            输出测试观察是否准确读入数字
 //            for (int i : buffer) {
 //                System.out.println(i);
@@ -97,6 +91,14 @@ public class MyRepeater implements NativeKeyListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void doTaskFromString(String str) {
+        int[] buffer = getNumsFromString(str
+                .replace("\r", " ")
+                .replace("\n", " ")
+        );
+        doTaskFromData(buffer);
     }
 
     private static void doTaskFromData(int[] buffer) {
@@ -116,6 +118,9 @@ public class MyRepeater implements NativeKeyListener {
         //                 - 调用keyBoardRelease(keyCode)进行模拟
         int i = 0;
         while (i < buffer.length) {
+            while (MyRepeaterInfo.isSpacePressed()) {
+                robot.delay(100);
+            }
             switch (buffer[i]) {
                 case 1 -> {
                     // mousePress
@@ -213,6 +218,7 @@ public class MyRepeater implements NativeKeyListener {
             );
         }
     }
+
     public static int pixelX(int x) {
         return (int) (x * MyRepeaterInfo.getScaleEps());
     }
@@ -221,27 +227,6 @@ public class MyRepeater implements NativeKeyListener {
         return (int) (y * MyRepeaterInfo.getScaleEps());
     }
 
-    @Override
-    public void nativeKeyTyped(NativeKeyEvent nativeKeyEvent) {
-
-    }
-
-    @Override
-    public void nativeKeyPressed(NativeKeyEvent nativeKeyEvent) {
-        // 按下esc时，退出程序
-        if (nativeKeyEvent.getKeyCode() == NativeKeyEvent.VC_ESCAPE) {
-            try {
-                GlobalScreen.unregisterNativeHook();
-                System.exit(0);
-            } catch (NativeHookException nativeHookException) {
-                nativeHookException.printStackTrace();
-            }
-        }
-    }
-
-    @Override
-    public void nativeKeyReleased(NativeKeyEvent nativeKeyEvent) {
-    }
 
     public static void main(String[] args) {
         initRobot();
@@ -252,41 +237,71 @@ public class MyRepeater implements NativeKeyListener {
         initScreenSizeToRobot();
         doAction(MyRepeater::test9);
     }
-}
 
-
-class RepeaterOwnListener implements NativeKeyListener {
-    public static void addListener(){
-        Logger.getLogger(GlobalScreen.class.getPackage().getName()).setLevel(Level.OFF);
-        try {
-            GlobalScreen.registerNativeHook();
+    static class RepeaterOwnListener implements NativeKeyListener {
+        public static void addListener(){
+            Logger.getLogger(GlobalScreen.class.getPackage().getName()).setLevel(Level.OFF);
+            try {
+                GlobalScreen.registerNativeHook();
+            }
+            catch (NativeHookException ex) {
+                System.err.println("There was a problem registering the native hook.");
+                System.err.println(ex.getMessage());
+                System.exit(1);
+            }
+            GlobalScreen.addNativeKeyListener(new RepeaterOwnListener());
         }
-        catch (NativeHookException ex) {
-            System.err.println("There was a problem registering the native hook.");
-            System.err.println(ex.getMessage());
-            System.exit(1);
+
+        @Override
+        public void nativeKeyTyped(NativeKeyEvent nativeKeyEvent) {
         }
-        GlobalScreen.addNativeKeyListener(new RepeaterOwnListener());
-    }
 
-    @Override
-    public void nativeKeyTyped(NativeKeyEvent nativeKeyEvent) {
-    }
+        @Override
+        public void nativeKeyPressed(NativeKeyEvent nativeKeyEvent) {
+            // 按下esc时，退出程序
+            // 如果是第一次按下空格，那么停止当前动作，如果是第二次按下空格，那么继续当前动作
+            switch (nativeKeyEvent.getKeyCode()){
+                case NativeKeyEvent.VC_SPACE -> { // 空格 暂停和继续运行
+                    MyRepeaterInfo.setSpacePressed(!MyRepeaterInfo.isSpacePressed());
+                }
+                case NativeKeyEvent.VC_ESCAPE -> { // 按下esc时，退出程序
+                    removeListener();
+                }
+                case NativeKeyEvent.VC_LEFT -> { // 按下左键时，增加延迟，最大是60000ms，减慢速度
+                    if (MyRepeaterInfo.getUserLayTimePerStep() < 60000) {
+                        MyRepeaterInfo.setUserLayTimePerStep(MyRepeaterInfo.getUserLayTimePerStep() + 10);
+                    }else {
+                        MyRepeaterInfo.setUserLayTimePerStep(60000);
+                    }
+                }
+                case NativeKeyEvent.VC_RIGHT -> { // 按下右键时，减少延迟，最小为20ms，加快速度
+                    if (MyRepeaterInfo.getLayTimePerStep() > 20) {
+                        MyRepeaterInfo.setLayTimePerStep(MyRepeaterInfo.getLayTimePerStep() - 10);
+                    }else {
+                        MyRepeaterInfo.setLayTimePerStep(20);
+                    }
+                }
+            }
+        }
 
-    @Override
-    public void nativeKeyPressed(NativeKeyEvent nativeKeyEvent) {
-        // 按下esc时，退出程序
-        if (nativeKeyEvent.getKeyCode() == NativeKeyEvent.VC_ESCAPE) {
+        public static void removeListener() {
             try {
                 GlobalScreen.unregisterNativeHook();
-                System.exit(0);
+                MyRepeaterInfo.setIsRepeating(false);
+//                robot = null;
+                Thread.currentThread().interrupt();
+//                System.exit(0);
             } catch (NativeHookException nativeHookException) {
                 nativeHookException.printStackTrace();
             }
         }
+
+        @Override
+        public void nativeKeyReleased(NativeKeyEvent nativeKeyEvent) {
+        }
     }
 
-    @Override
-    public void nativeKeyReleased(NativeKeyEvent nativeKeyEvent) {
-    }
+
 }
+
+
