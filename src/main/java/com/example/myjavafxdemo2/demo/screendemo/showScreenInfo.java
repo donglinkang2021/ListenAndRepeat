@@ -1,4 +1,4 @@
-package com.example.myjavafxdemo2.screendemo;
+package com.example.myjavafxdemo2.demo.screendemo;
 
 import java.awt.*;
 

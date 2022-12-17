@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 
 public class MyRepeater{
     static Robot robot = null;
+
     public static void initRobot() {
         try {
             robot = new Robot();
@@ -20,13 +21,24 @@ public class MyRepeater{
             e.printStackTrace();
         }
     }
+
+    public static void closeRobot() {
+        robot = null;
+        Thread.currentThread().interrupt();
+    }
+
     public static void doAction(Runnable action) {
-        RepeaterOwnListener.addListener(); // 注册监听器允许中断运行
+//        RepeaterOwnListener.addListener(); // 注册监听器允许中断运行
+        if(!MyRepeaterInfo.getIsRepeating()){
+            return;
+        }
         for (int i = 0; i < MyRepeaterInfo.getLoops(); i++) {
             action.run();
-            robot.delay(MyRepeaterInfo.getLayTimePerLoop());
+            if (MyRepeaterInfo.getIsRepeating()) {
+                robot.delay(MyRepeaterInfo.getLayTimePerLoop());
+            }
         }
-        RepeaterOwnListener.removeListener();
+//        RepeaterOwnListener.removeListener();
     }
 
     public static void test8(){
@@ -94,6 +106,12 @@ public class MyRepeater{
     }
 
     public static void doTaskFromString(String str) {
+        if (str == null || str.length() == 0) {
+            return;
+        }
+        if (!MyRepeaterInfo.getIsRepeating()) {
+            return;
+        }
         int[] buffer = getNumsFromString(str
                 .replace("\r", " ")
                 .replace("\n", " ")
@@ -118,8 +136,13 @@ public class MyRepeater{
         //                 - 调用keyBoardRelease(keyCode)进行模拟
         int i = 0;
         while (i < buffer.length) {
-            while (MyRepeaterInfo.isSpacePressed()) {
+
+            while (MyRepeaterInfo.isSpacePressed() && MyRepeaterInfo.getIsRepeating()) {
                 robot.delay(100);
+            }
+            if (!MyRepeaterInfo.getIsRepeating()){
+                closeRobot();
+                break;
             }
             switch (buffer[i]) {
                 case 1 -> {
@@ -210,6 +233,7 @@ public class MyRepeater{
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice[] gs = ge.getScreenDevices();
         if (gs.length == 1) {
+            MyRepeaterInfo.setIsMultiScreen(false);
             MyRepeaterInfo.setScreenWidth(Toolkit.getDefaultToolkit().getScreenSize().width);
             MyRepeaterInfo.setScreenHeight(Toolkit.getDefaultToolkit().getScreenSize().height);
             int resolutionWidth = gs[0].getDisplayMode().getWidth();
@@ -217,91 +241,61 @@ public class MyRepeater{
                     (MyRepeaterInfo.getScreenWidth() * 1.0 ) / resolutionWidth
             );
         }
+//        else {
+//            MyRepeaterInfo.setIsMultiScreen(true);
+//            GraphicsConfiguration[] gc = gs[0].getConfigurations();
+//            GraphicsConfiguration[] gc1 = gs[1].getConfigurations();
+//            int pixelWidth = gc[0].getBounds().width;
+//            int pixelWidth1 = gc1[0].getBounds().width;
+//            int resolutionWidth = gs[0].getDisplayMode().getWidth();
+//            int resolutionWidth1 = gs[1].getDisplayMode().getWidth();
+//            MyRepeaterInfo.setScaleEps(
+//                    (pixelWidth * 1.0 ) / resolutionWidth
+//            );
+//            MyRepeaterInfo.setScaleEps1(
+//                    (pixelWidth1 * 1.0 ) / resolutionWidth1
+//            );
+//        }
     }
 
     public static int pixelX(int x) {
         return (int) (x * MyRepeaterInfo.getScaleEps());
+//        if (!MyRepeaterInfo.getIsMultiScreen()) {
+//            return (int) (x * MyRepeaterInfo.getScaleEps());
+//        }else {
+//            if (x < 0) {
+//                return (int) (x * MyRepeaterInfo.getScaleEps());
+//            } else {
+//                return (int) (x * MyRepeaterInfo.getScaleEps1());
+//            }
+//        }
     }
 
     public static int pixelY(int y) {
         return (int) (y * MyRepeaterInfo.getScaleEps());
+//        if (!MyRepeaterInfo.getIsMultiScreen()) {
+//            return (int) (y * MyRepeaterInfo.getScaleEps());
+//        }else {
+//            if (y < 0) {
+//                return (int) (y * MyRepeaterInfo.getScaleEps());
+//            } else {
+//                return (int) (y * MyRepeaterInfo.getScaleEps1());
+//            }
+//        }
     }
 
 
     public static void main(String[] args) {
         initRobot();
         assert robot != null;
-        MyRepeaterInfo.setLoops(1);
-        MyRepeaterInfo.setLayTimePerStep(200);
+        MyRepeaterInfo.setIsRepeating(true);
+        MyRepeaterInfo.setLoops(3);
+        MyRepeaterInfo.setLayTimePerStep(1000);
         MyRepeaterInfo.setLayTimePerLoop(800);
         initScreenSizeToRobot();
         doAction(MyRepeater::test9);
+        MyRepeaterInfo.setIsRepeating(false);
     }
-
-    static class RepeaterOwnListener implements NativeKeyListener {
-        public static void addListener(){
-            Logger.getLogger(GlobalScreen.class.getPackage().getName()).setLevel(Level.OFF);
-            try {
-                GlobalScreen.registerNativeHook();
-            }
-            catch (NativeHookException ex) {
-                System.err.println("There was a problem registering the native hook.");
-                System.err.println(ex.getMessage());
-                System.exit(1);
-            }
-            GlobalScreen.addNativeKeyListener(new RepeaterOwnListener());
-        }
-
-        @Override
-        public void nativeKeyTyped(NativeKeyEvent nativeKeyEvent) {
-        }
-
-        @Override
-        public void nativeKeyPressed(NativeKeyEvent nativeKeyEvent) {
-            // 按下esc时，退出程序
-            // 如果是第一次按下空格，那么停止当前动作，如果是第二次按下空格，那么继续当前动作
-            switch (nativeKeyEvent.getKeyCode()){
-                case NativeKeyEvent.VC_SPACE -> { // 空格 暂停和继续运行
-                    MyRepeaterInfo.setSpacePressed(!MyRepeaterInfo.isSpacePressed());
-                }
-                case NativeKeyEvent.VC_ESCAPE -> { // 按下esc时，退出程序
-                    removeListener();
-                }
-                case NativeKeyEvent.VC_LEFT -> { // 按下左键时，增加延迟，最大是60000ms，减慢速度
-                    if (MyRepeaterInfo.getUserLayTimePerStep() < 60000) {
-                        MyRepeaterInfo.setUserLayTimePerStep(MyRepeaterInfo.getUserLayTimePerStep() + 10);
-                    }else {
-                        MyRepeaterInfo.setUserLayTimePerStep(60000);
-                    }
-                }
-                case NativeKeyEvent.VC_RIGHT -> { // 按下右键时，减少延迟，最小为20ms，加快速度
-                    if (MyRepeaterInfo.getLayTimePerStep() > 20) {
-                        MyRepeaterInfo.setLayTimePerStep(MyRepeaterInfo.getLayTimePerStep() - 10);
-                    }else {
-                        MyRepeaterInfo.setLayTimePerStep(20);
-                    }
-                }
-            }
-        }
-
-        public static void removeListener() {
-            try {
-                GlobalScreen.unregisterNativeHook();
-                MyRepeaterInfo.setIsRepeating(false);
-//                robot = null;
-                Thread.currentThread().interrupt();
-//                System.exit(0);
-            } catch (NativeHookException nativeHookException) {
-                nativeHookException.printStackTrace();
-            }
-        }
-
-        @Override
-        public void nativeKeyReleased(NativeKeyEvent nativeKeyEvent) {
-        }
-    }
-
-
 }
 
 

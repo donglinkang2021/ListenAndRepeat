@@ -1,4 +1,4 @@
-package com.example.myjavafxdemo2.filedemo;
+package com.example.myjavafxdemo2.demo.filedemo;
 
 import java.io.*;
 

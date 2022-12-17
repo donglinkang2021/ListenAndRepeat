@@ -1,6 +1,5 @@
-package com.example.myjavafxdemo2.threademo;
+package com.example.myjavafxdemo2.demo.threademo;
 
-import com.example.myjavafxdemo2.demo0Controller;
 import com.example.myjavafxdemo2.listenerandrepeater.MyListener;
 import javafx.application.Platform;
 import org.jnativehook.GlobalScreen;

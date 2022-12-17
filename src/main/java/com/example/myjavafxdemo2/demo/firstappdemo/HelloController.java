@@ -1,10 +1,7 @@
-package com.example.myjavafxdemo2;
+package com.example.myjavafxdemo2.demo.firstappdemo;
 
-import com.example.myjavafxdemo2.robot.RobotType;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-
-import java.awt.*;
 
 public class HelloController {
 
