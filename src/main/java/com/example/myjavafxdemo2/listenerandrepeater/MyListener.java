@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 
 public class MyListener implements Listener{
 
-    static MyListener example;
+    static MyListener listener;
     private static boolean isListening = false;
 
     public static String listenerContent = "";
@@ -124,23 +124,24 @@ public class MyListener implements Listener{
         }
 
         // Construct the example object.
-        example = new MyListener();
+        listener = new MyListener();
 
         // Add the appropriate listeners.
-        GlobalScreen.addNativeMouseListener(example);
-        GlobalScreen.addNativeMouseMotionListener(example);
-        GlobalScreen.addNativeMouseWheelListener(example);
-        GlobalScreen.addNativeKeyListener(example);
+        GlobalScreen.addNativeMouseListener(listener);
+        GlobalScreen.addNativeMouseMotionListener(listener);
+        GlobalScreen.addNativeMouseWheelListener(listener);
+        GlobalScreen.addNativeKeyListener(listener);
+
 
 //        changeOutputStream();
     }
 
     public static void stopListen(){
         try {
-            GlobalScreen.removeNativeMouseListener(example);
-            GlobalScreen.removeNativeMouseMotionListener(example);
-            GlobalScreen.removeNativeMouseWheelListener(example);
-            GlobalScreen.removeNativeKeyListener(example);
+            GlobalScreen.removeNativeMouseListener(listener);
+            GlobalScreen.removeNativeMouseMotionListener(listener);
+            GlobalScreen.removeNativeMouseWheelListener(listener);
+            GlobalScreen.removeNativeKeyListener(listener);
             GlobalScreen.unregisterNativeHook();
             setIsListening(false);
         } catch (NativeHookException nativeHookException) {

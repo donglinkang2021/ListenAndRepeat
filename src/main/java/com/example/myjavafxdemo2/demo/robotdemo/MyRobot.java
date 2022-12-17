@@ -1,4 +1,4 @@
-package com.example.myjavafxdemo2.robot;
+package com.example.myjavafxdemo2.demo.robotdemo;
 
 public class MyRobot {
     // 枚举robot的type

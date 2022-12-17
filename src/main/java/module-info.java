@@ -1,6 +1,7 @@
 module com.example.myjavafxdemo2 {
     requires javafx.controls;
     requires javafx.fxml;
+//    requires javafx.web;
     requires java.desktop;
     requires java.logging;
     requires jnativehook;
@@ -16,8 +17,8 @@ module com.example.myjavafxdemo2 {
     opens com.example.myjavafxdemo2.demo.learnJnativemousehook to javafx.fxml;
     exports com.example.myjavafxdemo2.listenerandrepeater;
     opens com.example.myjavafxdemo2.listenerandrepeater to javafx.fxml;
-    exports com.example.myjavafxdemo2.filedemo;
-    opens com.example.myjavafxdemo2.filedemo to javafx.fxml;
-//    opens com.example.myjavafxdemo2.robot to javafx.fxml;
-//    exports com.example.myjavafxdemo2.robot;
+    exports com.example.myjavafxdemo2.demo.filedemo;
+    opens com.example.myjavafxdemo2.demo.filedemo to javafx.fxml;
+    exports com.example.myjavafxdemo2.demo.firstappdemo;
+    opens com.example.myjavafxdemo2.demo.firstappdemo to javafx.fxml;
 }

@@ -1,4 +1,4 @@
-package com.example.myjavafxdemo2;
+package com.example.myjavafxdemo2.demo.firstappdemo;
 
 public class MyApp {
     public static void main(String[] args) {
