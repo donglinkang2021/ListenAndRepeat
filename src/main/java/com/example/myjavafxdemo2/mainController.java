@@ -45,13 +45,14 @@ public class mainController implements Initializable {
     public Button repeatBtn;
     public MenuBar menuBar;
     public RadioMenuItem isShowInfoRadio;
+    public RadioMenuItem isKeyCtrlRadio;
+
+    public void onButtonRadioIsKeyCtrl() {
+        MyRepeaterInfo.setIsKeyCtrl(isKeyCtrlRadio.isSelected());
+    }
 
     public void onButtonRadioMenuItemClicked() {
-        if (isShowInfoRadio.isSelected()) {
-            MyRepeaterInfo.setIsShowInfo(true);
-        } else {
-            MyRepeaterInfo.setIsShowInfo(false);
-        }
+        MyRepeaterInfo.setIsShowInfo(isShowInfoRadio.isSelected());
     }
 
     // 冻结页面
@@ -198,6 +199,7 @@ public class mainController implements Initializable {
                     }
                 );
                 MyRepeaterInfo.setIsRepeating(false);
+                MyRepeaterInfo.setSpacePressed(false);
             } else {
                 Platform.runLater(() -> {
                     showTip("输入的数字不合法");
@@ -302,6 +304,7 @@ public class mainController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         isShowInfoRadio.setSelected(false);
+        isKeyCtrlRadio.setSelected(false);
     }
 
     private static MyControllerOwnListener myControllerOwnListener;
@@ -341,6 +344,14 @@ public class mainController implements Initializable {
     class MyControllerOwnListener implements NativeKeyListener {
         @Override
         public void nativeKeyPressed(NativeKeyEvent nativeKeyEvent) {
+            if (!MyRepeaterInfo.getIsKeyCtrl()) {
+                if (nativeKeyEvent.getKeyCode() == NativeKeyEvent.VC_ESCAPE) {
+                    MyListener.setIsListening(false);
+                    MyRepeaterInfo.setIsRepeating(false);
+                    removeListener();
+                }
+                return;
+            }
             switch (nativeKeyEvent.getKeyCode()){
                 case NativeKeyEvent.VC_SPACE -> { // 空格 暂停和继续运行
                     MyRepeaterInfo.setSpacePressed(!MyRepeaterInfo.isSpacePressed());

@@ -5,6 +5,7 @@ public class MyRepeaterInfo {
     private static boolean SpacePressed = false; // 空格键是否按下
 
     private static boolean isShowInfo = false; // 是否显示信息(透明窗户打印的信息)
+    private static boolean isKeyCtrl = false; //  是否用键盘控制运行时的状态
 
     private static int layTimePerStep = 1500; // 每步延时 ms (默认1500ms) 每步便于修改
     private static int layTimePerLoop = 1000;
@@ -29,6 +30,14 @@ public class MyRepeaterInfo {
 
     public static void setIsShowInfo(boolean isShowInfo) {
         MyRepeaterInfo.isShowInfo = isShowInfo;
+    }
+
+    public static void setIsKeyCtrl(boolean isKeyCtrl) {
+        MyRepeaterInfo.isKeyCtrl = isKeyCtrl;
+    }
+
+    public static boolean getIsKeyCtrl() {
+        return isKeyCtrl;
     }
 
     public static boolean getIsShowInfo() {
