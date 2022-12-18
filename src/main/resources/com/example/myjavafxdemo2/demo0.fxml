@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioMenuItem?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="163.0" prefWidth="408.0"
+            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.myjavafxdemo2.mainController">
+   <children>
+      <TextArea fx:id="listenerTextArea" layoutX="17.0" layoutY="57.0" prefHeight="244.0" prefWidth="407.0" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="57.0" />
+      <HBox layoutX="5.0" layoutY="28.0" prefHeight="23.0" prefWidth="123.0" AnchorPane.topAnchor="30.0">
+         <children>
+            <Label prefHeight="23.0" prefWidth="70.0" text="执行次数/次:" />
+            <TextField fx:id="loopTimesTextField" prefHeight="23.0" prefWidth="40.0" text="1" />
+         </children>
+      </HBox>
+      <HBox layoutX="135.0" layoutY="30.0" prefHeight="23.0" prefWidth="137.0" AnchorPane.topAnchor="30.0">
+         <children>
+            <Label prefHeight="23.0" prefWidth="77.0" text="每步间隔/ms:" />
+            <TextField fx:id="stepDelayTextField" prefHeight="23.0" prefWidth="48.0" text="200" />
+         </children>
+      </HBox>
+      <HBox layoutX="277.0" layoutY="30.0" prefHeight="23.0" prefWidth="137.0" AnchorPane.topAnchor="30.0">
+         <children>
+            <Label prefHeight="23.0" prefWidth="77.0" text="循环间隔/ms:" />
+            <TextField fx:id="loopDelayTextField" prefHeight="23.0" prefWidth="48.0" text="500" />
+         </children>
+      </HBox>
+      <Button fx:id="repeatBtn" layoutX="332.0" layoutY="3.0" mnemonicParsing="false" onAction="#onButtonRepeaterClicked" prefHeight="23.0" prefWidth="70.0" text="✋repeat" />
+      <Button fx:id="listenBtn" layoutX="259.0" layoutY="3.0" mnemonicParsing="false" onAction="#onButtonListenerClicked" prefHeight="23.0" prefWidth="70.0" text="👂listen" />
+      <MenuBar fx:id="menuBar" layoutX="3.0" layoutY="4.0" prefHeight="25.0" prefWidth="161.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#onButtonOpenFile" text="Open         Ctrl+O" />
+                  <MenuItem mnemonicParsing="false" onAction="#onButtonSaveFile" text="Save           Ctrl+S" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Setting">
+              <items>
+                  <RadioMenuItem fx:id="isShowInfoRadio" mnemonicParsing="false" onAction="#onButtonRadioMenuItemClicked" text="Show the Info" />
+              </items>
+            </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </children>
+</AnchorPane>

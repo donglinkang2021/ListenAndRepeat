@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="240.0" prefWidth="467.0" styleClass="dark-theme"
+            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.myjavafxdemo2.processFileByFileController">
+   <children>
+      <ScrollPane layoutX="23.0" layoutY="29.0" prefHeight="211.0" prefWidth="455.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="29.0">
+        <content>
+          <AnchorPane fx:id="myScrollFilePane" minHeight="0.0" minWidth="0.0" prefHeight="2013.0" prefWidth="451.0" styleClass="dark-theme" />
+        </content>
+      </ScrollPane>
+      <Button fx:id="runBtn" layoutX="2.0" layoutY="2.0" mnemonicParsing="false" onAction="#onButtonRunMyFilePane" prefHeight="23.0" prefWidth="70.0" styleClass="blue-theme" text="RUN" />
+      <Button fx:id="addBtn" layoutX="319.0" layoutY="2.0" mnemonicParsing="false" onAction="#onButtonAddMyFilePane" prefHeight="23.0" prefWidth="62.0" styleClass="warm-theme" text="ADD" />
+      <Button fx:id="delBtn" layoutX="390.0" layoutY="2.0" mnemonicParsing="false" onAction="#onButtonDelMyFilePane" prefHeight="22.0" prefWidth="62.0" styleClass="warning-theme" text="DELETE" />
+   </children>
+</AnchorPane>

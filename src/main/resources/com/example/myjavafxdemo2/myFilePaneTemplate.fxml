@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+
+<AnchorPane fx:id="myFilePane" prefHeight="60.0" prefWidth="424.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox layoutX="15.0" layoutY="7.0" prefHeight="23.0" prefWidth="409.0">
+         <children>
+            <Label prefHeight="30.0" prefWidth="42.0" styleClass="font-white" text="文件名:" />
+            <TextField prefHeight="23.0" prefWidth="356.0" />
+         </children>
+      </HBox>
+      <HBox layoutX="14.0" layoutY="32.0" prefHeight="23.0" prefWidth="123.0" AnchorPane.topAnchor="32.0">
+         <children>
+            <Label prefHeight="23.0" prefWidth="70.0" styleClass="font-white" text="执行次数/次:" />
+            <TextField prefHeight="23.0" prefWidth="40.0" text="1" />
+         </children>
+      </HBox>
+      <HBox layoutX="145.0" layoutY="32.0" prefHeight="23.0" prefWidth="137.0" AnchorPane.topAnchor="32.0">
+         <children>
+            <Label prefHeight="23.0" prefWidth="77.0" styleClass="font-white" text="每步间隔/ms:" />
+            <TextField prefHeight="23.0" prefWidth="48.0" text="200" />
+         </children>
+      </HBox>
+      <HBox layoutX="288.0" layoutY="32.0" prefHeight="23.0" prefWidth="137.0" AnchorPane.topAnchor="32.0">
+         <children>
+            <Label prefHeight="23.0" prefWidth="77.0" styleClass="font-white" text="循环间隔/ms:" />
+            <TextField prefHeight="23.0" prefWidth="48.0" text="500" />
+         </children>
+      </HBox>
+   </children>
+   <styleClass>
+      <String fx:value="box" />
+      <String fx:value="dark-gray-theme" />
+   </styleClass>
+</AnchorPane>
